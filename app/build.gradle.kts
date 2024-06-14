@@ -73,7 +73,4 @@ dependencies {
 
     implementation("org.postgresql:postgresql:42.2.9")
 
-    //Nuevo
-    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 }
