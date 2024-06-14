@@ -21,9 +21,11 @@ import com.example.proyectosisvitag3.MainActivity
 fun PreguntasCuestionario(CantPreguntas: Int, CantRespuestas: Int) {
     val preguntas = remember { List(CantPreguntas) { index -> "Pregunta ${index + 1}" } }
     val respuestas = remember { List(CantRespuestas) { index -> "Opción ${index + 1}" } }
-    val respuestasSeleccionadas = remember { mutableStateMapOf<Int, String?>().apply {
-        preguntas.forEachIndexed { index, _ -> put(index, null) }
-    } }
+    val respuestasSeleccionadas = remember {
+        mutableStateMapOf<Int, String?>().apply {
+            preguntas.forEachIndexed { index, _ -> put(index, null) }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -95,7 +97,11 @@ fun PreguntasCuestionario(CantPreguntas: Int, CantRespuestas: Int) {
 }
 
 @Composable
-fun RespuestasCuestionario(answerText: String, selectedAnswer: String?, onSelected: (String) -> Unit) {
+fun RespuestasCuestionario(
+    answerText: String,
+    selectedAnswer: String?,
+    onSelected: (String) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
