@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,31 +56,33 @@ fun LoginScreen(viewModel: LoginViewModel) {
 @Composable
 fun Login(modifier: Modifier, viewModel: LoginViewModel) {
 
-    val email :String by viewModel.email.observeAsState(initial = "")
-    val password :String by viewModel.password.observeAsState(initial = "")
-    val loginEnable:Boolean by viewModel.loginEnable.observeAsState(initial = false)
+    val email: String by viewModel.email.observeAsState(initial = "")
+    val password: String by viewModel.password.observeAsState(initial = "")
+    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
     val coroutineScope = rememberCoroutineScope()
 
-    val isLoading:Boolean by viewModel.isLoading.observeAsState(initial = false)
+    val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
-    if(isLoading){
-        Box(Modifier.fillMaxSize()){
+    if (isLoading) {
+        /*Box(Modifier.fillMaxSize()) {
             CircularProgressIndicator(Modifier.align(Alignment.Center))
-        }
-    } else{
+        }*/
+        PreguntasCuestionario(CantPreguntas = 10, CantRespuestas = 3)
+    } else {
         Column(modifier = modifier) {
             HeaderImage(
                 Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(200.dp))
+                    .size(200.dp)
+            )
             Spacer(modifier = Modifier.padding(16.dp))
             EmailField(email) { viewModel.onLoginChanged(it, password) }
             Spacer(modifier = Modifier.padding(4.dp))
-            PasswordField(password){viewModel.onLoginChanged(email,it)}
+            PasswordField(password) { viewModel.onLoginChanged(email, it) }
             Spacer(modifier = Modifier.padding(8.dp))
             ForgotPassword(Modifier.align(Alignment.End))
             Spacer(modifier = Modifier.padding(16.dp))
-            LoginButton(loginEnable){
+            LoginButton(loginEnable) {
                 coroutineScope.launch {
                     viewModel.onLoginSelected()
                 }
@@ -91,7 +94,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
 @Composable
 fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
     Button(
-        onClick = { onLoginSelected()},
+        onClick = { onLoginSelected() },
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp),
@@ -101,14 +104,14 @@ fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
             contentColor = Color.White,
             disabledContentColor = Color.White
         ), enabled = loginEnable
-        ) {
-            Text(text = "Iniciar sesión")
+    ) {
+        Text(text = "Iniciar sesión")
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPassword(modifier: Modifier){
+fun ForgotPassword(modifier: Modifier) {
     Text(
         text = "¿Olvidaste la contraseña?",
         modifier = modifier.clickable { },
@@ -120,28 +123,28 @@ fun ForgotPassword(modifier: Modifier){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordField(password:String, onTextFieldChanged:(String) -> Unit){
+fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
-    value = password, onValueChange ={onTextFieldChanged(it)},
-    placeholder = { Text(text = "Contraseña") },
-    modifier = Modifier.fillMaxWidth(),
-    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-    singleLine = true,
-    maxLines = 1,
-    colors = TextFieldDefaults.textFieldColors(
-        containerColor = Color(0xFFDEDDDD),
-        cursorColor = Color(0xFF636262),
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        focusedTextColor = Color(0xFF000000),
-        unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
+        value = password, onValueChange = { onTextFieldChanged(it) },
+        placeholder = { Text(text = "Contraseña") },
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        singleLine = true,
+        maxLines = 1,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFDEDDDD),
+            cursorColor = Color(0xFF636262),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = Color(0xFF000000),
+            unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
         )
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailField(email:String, onTextFieldChanged:(String) -> Unit) {
+fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
     TextField(
         value = email, onValueChange = { onTextFieldChanged(it) },
         modifier = Modifier.fillMaxWidth(),
