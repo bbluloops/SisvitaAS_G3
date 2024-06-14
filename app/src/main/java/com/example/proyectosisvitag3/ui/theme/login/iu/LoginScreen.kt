@@ -26,7 +26,7 @@ import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuest
 fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = Color.Cyan
     ) {
         Box(
             Modifier
