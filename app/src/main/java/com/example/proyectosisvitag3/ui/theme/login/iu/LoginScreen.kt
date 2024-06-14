@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
 import kotlinx.coroutines.launch
 
@@ -129,6 +130,7 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         placeholder = { Text(text = "Contraseña") },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        visualTransformation = PasswordVisualTransformation(), //Contraseña en *****
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
