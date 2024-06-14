@@ -1,5 +1,6 @@
 package com.example.proyectosisvitag3.ui.theme.login.iu
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,14 +11,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import com.example.proyectosisvitag3.R
 
 @Composable
 fun MainScreen(navController: NavHostController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = Color.Cyan
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -26,21 +30,41 @@ fun MainScreen(navController: NavHostController) {
         ) {
             Text(
                 text = "Bienvenido",
-                style = TextStyle(fontSize = 24.sp, color = Color.Black)
+                style = TextStyle(fontSize = 40.sp, color = Color.Black, fontFamily = FontFamily.Cursive)
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = { navController.navigate("loginScreen") },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
-            ) {
-                Text(text = "Iniciar como Alumno")
+            Spacer(modifier = Modifier.height(30.dp))
+            Column {
+                AlumnoImage(
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(200.dp)
+                )
+                Button(
+                    onClick = { navController.navigate("loginScreen") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 80.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF3E03))
+                ) {
+                    Text(text = "Iniciar como Alumno")
+                }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {  },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
-            ) {
-                Text(text = "Iniciar como Profesional")
+            Column {
+                ProfesionalImage(
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(200.dp)
+                )
+                Button(
+                    onClick = {  },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 80.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF4303))
+                ) {
+                    Text(text = "Iniciar como Profesional")
+                }
             }
         }
     }
@@ -50,4 +74,22 @@ fun MainScreen(navController: NavHostController) {
 @Composable
 fun PreviewMainScreen() {
     MainScreen(rememberNavController())
+}
+
+@Composable
+fun AlumnoImage(modifier: Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.estudiantes),
+        contentDescription = "Header",
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ProfesionalImage(modifier: Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.profesional),
+        contentDescription = "Header",
+        modifier = modifier
+    )
 }
