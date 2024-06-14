@@ -21,7 +21,7 @@ import com.example.proyectosisvitag3.R
 fun MainScreen(navController: NavHostController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.Cyan
+        color = Color.White
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -30,7 +30,7 @@ fun MainScreen(navController: NavHostController) {
         ) {
             Text(
                 text = "Bienvenido",
-                style = TextStyle(fontSize = 40.sp, color = Color.Black, fontFamily = FontFamily.Cursive)
+                style = TextStyle(fontSize = 45.sp, color = Color.Black, fontFamily = FontFamily.Cursive)
             )
             Spacer(modifier = Modifier.height(30.dp))
             Column {
