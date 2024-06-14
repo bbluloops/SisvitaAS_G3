@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.proyectosisvitag3.ui.theme.ProyectoSisvitaG3Theme
 import com.example.proyectosisvitag3.ui.theme.login.iu.LoginScreen
 import com.example.proyectosisvitag3.ui.theme.login.iu.LoginViewModel
+import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen(LoginViewModel() )
+                    LoginScreen(LoginViewModel())
+
+                    //PreguntasCuestionario(CantPreguntas = 10, CantRespuestas = 3)
                 }
             }
         }
