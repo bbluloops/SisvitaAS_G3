@@ -2,43 +2,28 @@ package com.example.proyectosisvitag3.ui.theme.login.iu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
-import androidx.compose.material3.TextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import com.example.proyectosisvitag3.R
-import androidx.compose.ui.unit.sp
-import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import com.example.proyectosisvitag3.R
+import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.White
@@ -48,15 +33,14 @@ fun LoginScreen(viewModel: LoginViewModel) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Login(Modifier.align(Alignment.Center), viewModel)
+            Login(Modifier.align(Alignment.Center), viewModel, navController)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel) {
-
+fun Login(modifier: Modifier, viewModel: LoginViewModel, navController: NavHostController) {
     val email: String by viewModel.email.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial = "")
     val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
@@ -65,10 +49,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
     if (isLoading) {
-        /*Box(Modifier.fillMaxSize()) {
-            CircularProgressIndicator(Modifier.align(Alignment.Center))
-        }*/
-        PreguntasCuestionario(CantPreguntas = 10, CantRespuestas = 3)
+        navController.navigate("studentMainScreen")
     } else {
         Column(modifier = modifier) {
             HeaderImage(
@@ -130,7 +111,7 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         placeholder = { Text(text = "Contraseña") },
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        visualTransformation = PasswordVisualTransformation(), //Contraseña en *****
+        visualTransformation = PasswordVisualTransformation(), // Contraseña en *****
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
@@ -161,7 +142,6 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
             unfocusedIndicatorColor = Color.Transparent,
             focusedTextColor = Color(0xFF000000),
             unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
-
         )
     )
 }
@@ -174,6 +154,3 @@ fun HeaderImage(modifier: Modifier) {
         modifier = modifier
     )
 }
-
-
-
