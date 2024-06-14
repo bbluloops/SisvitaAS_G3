@@ -58,9 +58,8 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
     val email :String by viewModel.email.observeAsState(initial = "")
     val password :String by viewModel.password.observeAsState(initial = "")
     val loginEnable:Boolean by viewModel.loginEnable.observeAsState(initial = false)
-    val coroutineScope = rememberCoroutineScope()
-
     val isLoading:Boolean by viewModel.isLoading.observeAsState(initial = false)
+    val coroutineScope = rememberCoroutineScope()
 
     if(isLoading){
         Box(Modifier.fillMaxSize()){
@@ -71,7 +70,7 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel) {
             HeaderImage(
                 Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(200.dp))
+                    .size(230.dp))
             Spacer(modifier = Modifier.padding(16.dp))
             EmailField(email) { viewModel.onLoginChanged(it, password) }
             Spacer(modifier = Modifier.padding(4.dp))
@@ -101,8 +100,8 @@ fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
             contentColor = Color.White,
             disabledContentColor = Color.White
         ), enabled = loginEnable
-        ) {
-            Text(text = "Iniciar sesión")
+    ) {
+        Text(text = "Iniciar sesión")
     }
 }
 
@@ -122,19 +121,19 @@ fun ForgotPassword(modifier: Modifier){
 @Composable
 fun PasswordField(password:String, onTextFieldChanged:(String) -> Unit){
     TextField(
-    value = password, onValueChange ={onTextFieldChanged(it)},
-    placeholder = { Text(text = "Contraseña") },
-    modifier = Modifier.fillMaxWidth(),
-    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-    singleLine = true,
-    maxLines = 1,
-    colors = TextFieldDefaults.textFieldColors(
-        containerColor = Color(0xFFDEDDDD),
-        cursorColor = Color(0xFF636262),
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        focusedTextColor = Color(0xFF000000),
-        unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
+        value = password, onValueChange ={onTextFieldChanged(it)},
+        placeholder = { Text(text = "Contraseña") },
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        singleLine = true,
+        maxLines = 1,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFDEDDDD),
+            cursorColor = Color(0xFF636262),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedTextColor = Color(0xFF000000),
+            unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
         )
     )
 }
@@ -169,6 +168,9 @@ fun HeaderImage(modifier: Modifier) {
         modifier = modifier
     )
 }
+
+
+
 
 
 
