@@ -3,17 +3,14 @@ package com.example.proyectosisvitag3
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectosisvitag3.ui.theme.login.iu.MainScreen
-import com.example.proyectosisvitag3.ui.theme.login.iu.LoginScreen
-import com.example.proyectosisvitag3.ui.theme.login.iu.StudentMainScreen
-import com.example.proyectosisvitag3.ui.theme.login.iu.LoginViewModel
-import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
+import com.example.proyectosisvitag3.ui.theme.iu.MainScreen
+import com.example.proyectosisvitag3.ui.theme.iu.LoginScreen
+import com.example.proyectosisvitag3.ui.theme.iu.StudentMainScreen
+import com.example.proyectosisvitag3.ui.theme.iu.LoginViewModel
+import com.example.proyectosisvitag3.ui.theme.iu.formulario.PreguntasCuestionario
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

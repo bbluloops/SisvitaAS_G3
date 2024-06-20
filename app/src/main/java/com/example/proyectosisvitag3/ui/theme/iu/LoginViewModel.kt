@@ -15,7 +15,6 @@ import com.example.proyectosisvitag3.ui.theme.data.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
-import com.example.proyectosisvitag3.ui.theme.data.model.tbEspecialistas
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
@@ -46,9 +45,6 @@ class LoginViewModel : ViewModel() {
     private val _estudiante = MutableLiveData<tbEstudiante?>()
     val estudiante: LiveData<tbEstudiante?> = _estudiante
 
-    private val _especialistas = MutableLiveData<tbEspecialistas?>()
-    val especialistas: LiveData<tbEspecialistas?> = _especialistas
-
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
@@ -66,10 +62,11 @@ class LoginViewModel : ViewModel() {
             try {
                 val loginRequest = LoginRequest(_email.value ?: "", _password.value ?: "")
                 val response: Response<LoginResponse> = repository.login(loginRequest)
-                if (response.isSuccessful) {
+                if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()
-                    if (loginResponse!= null && loginResponse.success) {
-                        _estudiante.postValue(tbEstudiante(idEstudiante = loginResponse.data?.idEstudiante))
+                    if (loginResponse!!.success && loginResponse.data != null) {
+                        val idEstudiante = loginResponse.data.idEstudiante
+                        _estudiante.postValue(tbEstudiante(idEstudiante = idEstudiante))
                         _loginSuccess.postValue(true)
                     } else {
                         _isError.postValue(true)
@@ -84,8 +81,6 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-
-
 
     // Función para descartar el diálogo
     fun dismissDialog() {
