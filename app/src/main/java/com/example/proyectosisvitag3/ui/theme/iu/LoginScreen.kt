@@ -1,4 +1,4 @@
-package com.example.proyectosisvitag3.ui.theme.login.iu
+package com.example.proyectosisvitag3.ui.theme.iu
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import com.example.proyectosisvitag3.R
-import com.example.proyectosisvitag3.ui.theme.login.iu.formulario.PreguntasCuestionario
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
