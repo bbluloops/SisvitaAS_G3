@@ -1,4 +1,4 @@
-package com.example.proyectosisvitag3.ui.theme.login.iu.formulario
+package com.example.proyectosisvitag3.ui.theme.iu.formulario
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

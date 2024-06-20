@@ -1,4 +1,4 @@
-package com.example.proyectosisvitag3.ui.theme.login.iu
+package com.example.proyectosisvitag3.ui.theme.iu
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
