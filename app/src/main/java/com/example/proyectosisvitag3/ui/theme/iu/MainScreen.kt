@@ -6,15 +6,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import com.example.proyectosisvitag3.R
 
 @Composable
@@ -57,7 +56,7 @@ fun MainScreen(navController: NavHostController) {
                         .size(200.dp)
                 )
                 Button(
-                    onClick = {  },
+                    onClick = { navController.navigate("loginScreen") }, // Aquí debería ir la navegación a la pantalla de login para profesionales
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 80.dp),
@@ -68,12 +67,6 @@ fun MainScreen(navController: NavHostController) {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewMainScreen() {
-    MainScreen(rememberNavController())
 }
 
 @Composable
