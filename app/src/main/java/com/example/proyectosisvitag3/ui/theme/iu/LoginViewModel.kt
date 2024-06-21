@@ -15,6 +15,7 @@ import com.example.proyectosisvitag3.ui.theme.data.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
+import com.example.proyectosisvitag3.ui.theme.data.model.tbEspecialistas
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
@@ -44,6 +45,9 @@ class LoginViewModel : ViewModel() {
 
     private val _estudiante = MutableLiveData<tbEstudiante?>()
     val estudiante: LiveData<tbEstudiante?> = _estudiante
+
+    private val _especialistas = MutableLiveData<tbEspecialistas?>()
+    val especialistas: LiveData<tbEspecialistas?> = _especialistas
 
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
@@ -80,6 +84,8 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
+
 
     // Función para descartar el diálogo
     fun dismissDialog() {

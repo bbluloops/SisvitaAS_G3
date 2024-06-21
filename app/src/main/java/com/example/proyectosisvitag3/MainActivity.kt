@@ -13,6 +13,8 @@ import com.example.proyectosisvitag3.ui.theme.iu.StudentMainScreen
 import com.example.proyectosisvitag3.ui.theme.iu.LoginViewModel
 import com.example.proyectosisvitag3.ui.theme.iu.EvaluarResultadoViewModel
 import com.example.proyectosisvitag3.ui.theme.iu.formulario.PreguntasCuestionario
+import com.example.proyectosisvitag3.ui.theme.iu.TermsAndConditionsScreen
+import com.example.proyectosisvitag3.ui.theme.iu.EspecialistaMainScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,9 @@ class MainActivity : ComponentActivity() {
                 composable("mainScreen") { MainScreen(navController) }
                 composable("loginScreen") { LoginScreen(navController, LoginViewModel()) }
                 composable("studentMainScreen") { StudentMainScreen(navController) }
+                composable("EspecialistaMainScreen") { EspecialistaMainScreen() }
                 composable("evaluarResultadoScreen") { EvaluarResultadoScreen(navController, EvaluarResultadoViewModel()) }
+                composable("termsAndConditionsScreen") { TermsAndConditionsScreen(navController) }
                 composable("testScreen") { PreguntasCuestionario(CantPreguntas = 10, CantRespuestas = 4) }
             }
         }
