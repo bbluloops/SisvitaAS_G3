@@ -10,6 +10,8 @@ import retrofit2.Response
 
 interface ApiService {
     @POST("Estudiantes/v1/login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+    suspend fun login(
+        @Body loginRequest: LoginRequest
+    ): Response<LoginResponse>
 
 }
