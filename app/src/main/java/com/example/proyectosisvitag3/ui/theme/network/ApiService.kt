@@ -16,6 +16,6 @@ interface ApiService {
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
 
-    @POST("/ResultadoTests/v1/update")
+    @POST("/EvaluarResults/v1/actualizar")
     suspend fun update(@Body updateRequest: UpdateRequest): Response<UpdateResponse>
 }
