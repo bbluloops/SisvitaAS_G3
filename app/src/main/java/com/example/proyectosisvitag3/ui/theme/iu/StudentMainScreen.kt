@@ -30,7 +30,7 @@ fun StudentMainScreen(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { navController.navigate("termsAndConditionsScreen") },
+                onClick = { navController.navigate("testScreen") },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
             ) {
                 Text(text = "Iniciar Test")
