@@ -62,11 +62,10 @@ class LoginViewModel : ViewModel() {
             try {
                 val loginRequest = LoginRequest(_email.value ?: "", _password.value ?: "")
                 val response: Response<LoginResponse> = repository.login(loginRequest)
-                if (response.isSuccessful && response.body() != null) {
+                if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    if (loginResponse!!.success && loginResponse.data != null) {
-                        val idEstudiante = loginResponse.data.idEstudiante
-                        _estudiante.postValue(tbEstudiante(idEstudiante = idEstudiante))
+                    if (loginResponse!= null && loginResponse.success) {
+                        _estudiante.postValue(tbEstudiante(idEstudiante = loginResponse.data?.idEstudiante))
                         _loginSuccess.postValue(true)
                     } else {
                         _isError.postValue(true)
