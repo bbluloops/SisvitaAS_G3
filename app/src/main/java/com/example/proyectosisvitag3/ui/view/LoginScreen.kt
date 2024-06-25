@@ -1,99 +1,157 @@
 package com.example.proyectosisvitag3.ui.theme.iu
 
+import android.widget.NumberPicker.OnValueChangeListener
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.launch
 import com.example.proyectosisvitag3.R
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.input.ImeAction
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.White
+fun LoginScreen(
+    navController: NavHostController,
+    loginViewModel: LoginViewModel = viewModel()
+) {
+    val showDialog by loginViewModel.showDialog
+    val dialogMessage by loginViewModel.dialogMessage
+
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Login(Modifier.align(Alignment.Center), viewModel, navController)
-        }
+        Login(loginViewModel,navController)
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Login(modifier: Modifier, viewModel: LoginViewModel, navController: NavHostController) {
-    val email: String by viewModel.email.observeAsState(initial = "")
-    val password: String by viewModel.password.observeAsState(initial = "")
-    val loginEnable: Boolean by viewModel.loginEnable.observeAsState(initial = false)
-    val coroutineScope = rememberCoroutineScope()
-
-    val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
-
-    if (isLoading) {
-        navController.navigate("studentMainScreen")
-    } else {
-        Column(modifier = modifier) {
-            HeaderImage(
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(200.dp)
-            )
-            Spacer(modifier = Modifier.padding(16.dp))
-            EmailField(email) { viewModel.onLoginChanged(it, password) }
-            Spacer(modifier = Modifier.padding(4.dp))
-            PasswordField(password) { viewModel.onLoginChanged(email, it) }
-            Spacer(modifier = Modifier.padding(8.dp))
-            ForgotPassword(Modifier.align(Alignment.End))
-            Spacer(modifier = Modifier.padding(16.dp))
-            LoginButton(loginEnable) {
-                coroutineScope.launch {
-                    viewModel.onLoginSelected()
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { loginViewModel.dismissDialog() },
+            title = {
+                Text(text = "Notificación")
+            },
+            text = {
+                Text(text = dialogMessage)
+            },
+            confirmButton = {
+                Button(
+                    onClick = { loginViewModel.dismissDialog() }
+                ) {
+                    Text("OK")
                 }
             }
-        }
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
+fun Login(
+    loginViewModel: LoginViewModel,
+    navController: NavHostController
+) {
+    val correo: String by loginViewModel.correoState
+    val contraseña: String by loginViewModel.contraseñaState
+    val isError: Boolean by loginViewModel.isError
+    val loginSuccess: Boolean by loginViewModel.loginSuccess
+    val showDialog: Boolean by loginViewModel.showDialog
+    val dialogMessage:String by loginViewModel.dialogMessage
+
+    Column(
+        modifier = Modifier
+    ) {
+
+        HeaderImage(
+            Modifier
+                .align(Alignment.CenterHorizontally)
+                .size(200.dp)
+        )
+
+        Spacer(modifier = Modifier.padding(16.dp))
+        EmailField(
+            value = correo,
+            onValueChange = {loginViewModel.setEmail(it)},
+            placeholder = "correo",
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            )
+        )
+        Spacer(modifier = Modifier.padding(16.dp))
+        PasswordField(
+            value = contraseña,
+            onValueChange = {loginViewModel.setPassword(it)},
+            placeholder = "contraseña",
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Done
+            )
+        )  //Contraseña
+
+        /*Spacer(modifier = Modifier.padding(8.dp))
+        ForgotPassword(Modifier.align(Alignment.End)) //Olvidaste tu contra*/
+
+        Spacer(modifier = Modifier.padding(16.dp))
+        LoginButton(
+            texto = "Iniciar Sesión",
+            nav = { loginViewModel.login()}
+        )
+    }
+    if (isError) {
+        Text(
+            text = "Hubo un error al iniciar sesión",
+            color = MaterialTheme.colorScheme.error,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(top = 20.dp)
+        )
+    }
+    if(loginSuccess){
+        Text(
+            text = "siuuuuu",
+            color = MaterialTheme.colorScheme.background,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(top = 20.dp)
+        )
+        navController.navigate("studentMainScreen")
+    }
+
+}
+
+@Composable
+fun LoginButton(
+    texto:String,
+    nav: () -> Unit
+) {
     Button(
-        onClick = { onLoginSelected() },
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFFF4303),
-            disabledContainerColor = Color(0xFFF78058),
+            disabledContainerColor = Color(0xFFFF4303),
             contentColor = Color.White,
             disabledContentColor = Color.White
-        ), enabled = loginEnable
+        ),
+        onClick = { nav() },
     ) {
-        Text(text = "Iniciar sesión")
+        Text(texto)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+/*@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPassword(modifier: Modifier) {
     Text(
@@ -103,48 +161,49 @@ fun ForgotPassword(modifier: Modifier) {
         fontWeight = FontWeight.Bold,
         color = Color(0xFFFB9600)
     )
-}
+}*/
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
+fun PasswordField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    keyboardOptions: KeyboardOptions
+) {
     TextField(
-        value = password, onValueChange = { onTextFieldChanged(it) },
-        placeholder = { Text(text = "Contraseña") },
-        modifier = Modifier.fillMaxWidth(),
+        value = value,
+        onValueChange = { onValueChange(it) },
+        modifier = Modifier
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        visualTransformation = PasswordVisualTransformation(), // Contraseña en *****
+        //visualTransformation = PasswordVisualTransformation(), // Contraseña en *****
         singleLine = true,
         maxLines = 1,
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color(0xFFDEDDDD),
-            cursorColor = Color(0xFF636262),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedTextColor = Color(0xFF000000),
-            unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
-        )
+        placeholder = {
+            Text(text = placeholder)
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
+fun EmailField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    keyboardOptions: KeyboardOptions
+) {
     TextField(
-        value = email, onValueChange = { onTextFieldChanged(it) },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = "Email") },
+        value = value,
+        onValueChange = { onValueChange(it) },
+        modifier = Modifier
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true,
         maxLines = 1,
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color(0xFFDEDDDD),
-            cursorColor = Color(0xFF636262),
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedTextColor = Color(0xFF000000),
-            unfocusedTextColor = Color(0xFF000000)  // Texto en un tono más oscuro
-        )
+        placeholder = {
+            Text(text = placeholder)
+        }
     )
 }
 

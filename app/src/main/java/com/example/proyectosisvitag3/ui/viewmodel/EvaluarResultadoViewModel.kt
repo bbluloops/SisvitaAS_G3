@@ -15,7 +15,7 @@ import com.example.proyectosisvitag3.ui.theme.data.model.UpdateResponse
 import retrofit2.Response
 
 class EvaluarResultadoViewModel : ViewModel()  {
-
+/*
     private val repository = UpdateRepository()
 
     private val _nivelAnsiedad = MutableLiveData<String>()
@@ -64,5 +64,5 @@ class EvaluarResultadoViewModel : ViewModel()  {
                 _isLoading.postValue(false)
             }
         }
-    }
+    }*/
 }

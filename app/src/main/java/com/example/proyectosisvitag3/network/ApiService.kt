@@ -11,9 +11,9 @@ import retrofit2.http.POST
 import retrofit2.Response
 
 interface ApiService {
-    @POST("Estudiantes/v1/login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
+    @POST("/Estudiantes/v1/login")
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
     @POST("/ResultadoTests/v1/update")
-    suspend fun update(@Body updateRequest: UpdateRequest): Response<UpdateResponse>
+    suspend fun update(@Body updateRequest: UpdateRequest): UpdateResponse
 }

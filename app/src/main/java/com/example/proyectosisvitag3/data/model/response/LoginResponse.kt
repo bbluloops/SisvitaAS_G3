@@ -1,7 +1,9 @@
 package com.example.proyectosisvitag3.ui.theme.data.model
 
+import com.example.proyectosisvitag3.data.model.response.LoginData
+
 data class LoginResponse(
-    val message: String,
-    val success: Boolean,
-    val data: LoginData?
+    val data: LoginData?,
+    val msg: String,
+    val success: Boolean
 )

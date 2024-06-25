@@ -8,7 +8,7 @@ import retrofit2.Response
 class UpdateRepository {
     private val apiService = ApiInstance.apiInstance
 
-    suspend fun update(updateRequest: UpdateRequest): Response<UpdateResponse> {
+    suspend fun update(updateRequest: UpdateRequest): UpdateResponse {
         return apiService.update(updateRequest)
     }
 }

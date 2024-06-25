@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiInstance {
     private val retrofit by lazy{
         Retrofit.Builder()
-            .baseUrl("https://sisvitag3.onrender.com")
+            .baseUrl("https://sisvitag3-prueba.onrender.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
