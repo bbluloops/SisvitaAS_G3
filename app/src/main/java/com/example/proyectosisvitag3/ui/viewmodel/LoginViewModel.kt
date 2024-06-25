@@ -21,13 +21,14 @@ import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    private val loginUseCase = LoginUseCase()
+    //private val loginUseCase = LoginUseCase()
+    private val loginRepository = LoginRepository()
 
     private val _correoState = mutableStateOf("")
     val correoState: State<String> = _correoState
 
-    private val _contraseñaState = mutableStateOf("")
-    val contraseñaState: State<String> = _contraseñaState
+    private val _contrasenaState = mutableStateOf("")
+    val contrasenaState: State<String> = _contrasenaState
 
     private val _rememberMeState = mutableStateOf(false)
     val rememberMeState: State<Boolean> = _rememberMeState
@@ -55,7 +56,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun setPassword(password: String) {
-        _contraseñaState.value = password
+        _contrasenaState.value = password
     }
 
     fun setRememberMe(checked: Boolean) {
@@ -84,20 +85,31 @@ class LoginViewModel : ViewModel() {
     fun login() {
         println("se llama a la funcion login()")
         _isLoading.value = true
+        println("Se inicia verificación")
         viewModelScope.launch(Dispatchers.IO) {
+            println("Inicia corutina")
             try {
-                val loginRequest = LoginRequest(_correoState.value, _contraseñaState.value)
-                val response = loginUseCase.login(loginRequest)
+                println("asd")
+                val loginRequest = LoginRequest(_correoState.value, _contrasenaState.value)
+                println("es acá")
+                //val response = loginUseCase.login(loginRequest)
+                val response = loginRepository.login(loginRequest)
+
+                println("Se solicita respuesta a la api")
 
                 if (response.success && response.data != null) {
+                    println("JSON recibido con éxito")
+                    println(response.success)
+                    println(response.msg)
+                    println(response.data)
 
-                    val rptaUsuario =response.data.estudiante
+                    val rptaUsuario = response.data
                     _estudiante.value = tbEstudiante(
                         idEstudiante = rptaUsuario.idEstudiante ?: 0,
                         nombreEstudiante = rptaUsuario.nombreEstudiante,
                         apellidoEstudiante = rptaUsuario.apellidoEstudiante,
                         correoEstudiante = rptaUsuario.correoEstudiante,
-                        contraseñaEstudiante = rptaUsuario.contraseñaEstudiante
+                        contrasenaEstudiante = rptaUsuario.contrasenaEstudiante
                     )
                     _loginSuccess.value = true
 
@@ -106,6 +118,7 @@ class LoginViewModel : ViewModel() {
                 }
                 _isLoading.value = false
             } catch (e: Exception) {
+                println(e.message)
                 _isError.value = true
                 _isLoading.value = false
             }

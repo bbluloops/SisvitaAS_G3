@@ -1,9 +1,7 @@
 package com.example.proyectosisvitag3.ui.theme.iu
 
-import android.widget.NumberPicker.OnValueChangeListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -12,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,7 +61,7 @@ fun Login(
     navController: NavHostController
 ) {
     val correo: String by loginViewModel.correoState
-    val contraseña: String by loginViewModel.contraseñaState
+    val contrasena: String by loginViewModel.contrasenaState
     val isError: Boolean by loginViewModel.isError
     val loginSuccess: Boolean by loginViewModel.loginSuccess
     val showDialog: Boolean by loginViewModel.showDialog
@@ -92,7 +89,7 @@ fun Login(
         )
         Spacer(modifier = Modifier.padding(16.dp))
         PasswordField(
-            value = contraseña,
+            value = contrasena,
             onValueChange = {loginViewModel.setPassword(it)},
             placeholder = "contraseña",
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -141,7 +138,7 @@ fun LoginButton(
             .height(48.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFFF4303),
-            disabledContainerColor = Color(0xFFFF4303),
+            disabledContainerColor = Color(0xFFC75C38),
             contentColor = Color.White,
             disabledContentColor = Color.White
         ),
