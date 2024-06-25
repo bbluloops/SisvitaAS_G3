@@ -97,13 +97,13 @@ class LoginViewModel : ViewModel() {
 
                 println("Se solicita respuesta a la api")
 
-                if (response.success && response.data != null) {
+                /*if (response.success && response.data != null) {
                     println("JSON recibido con éxito")
                     println(response.success)
                     println(response.msg)
                     println(response.data)
 
-                    val rptaUsuario = response.data
+                    val rptaUsuario = response.data.estudiante
                     _estudiante.value = tbEstudiante(
                         idEstudiante = rptaUsuario.idEstudiante ?: 0,
                         nombreEstudiante = rptaUsuario.nombreEstudiante,
@@ -115,7 +115,7 @@ class LoginViewModel : ViewModel() {
 
                 } else {
                     _isError.value = true
-                }
+                }*/
                 _isLoading.value = false
             } catch (e: Exception) {
                 println(e.message)
