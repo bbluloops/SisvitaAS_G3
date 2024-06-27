@@ -1,6 +1,7 @@
 package com.example.proyectosisvitag3.ui.theme.iu
 
 import androidx.compose.foundation.layout.*
+import android.util.Log
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -85,7 +86,9 @@ fun TermsAndConditionsScreen(navController: NavHostController) {
                 Text(text = "Acepto los términos y condiciones")
             }
             Button(
-                onClick = { if (accepted) navController.navigate("testScreen") },
+                onClick = {
+                    Log.d("Terminos","Moviendose a test")
+                    if (accepted) navController.navigate("testScreen") },
                 enabled = accepted,
                 modifier = Modifier
                     .fillMaxWidth()

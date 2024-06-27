@@ -1,6 +1,7 @@
 package com.example.proyectosisvitag3.ui.theme.iu
 
 import android.util.Patterns
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
@@ -15,103 +16,110 @@ import com.example.proyectosisvitag3.ui.theme.data.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
+import com.example.proyectosisvitag3.data.model.response.EstudianteResponse
+import com.example.proyectosisvitag3.domain.LoginUseCase
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    private val repository = LoginRepository()
+    //private val loginUseCase = LoginUseCase()
+    private val loginRepository = LoginRepository()
 
-    private val _email = MutableLiveData<String>()
-    val email: LiveData<String> = _email
+    private val _correoState = mutableStateOf("")
+    val correoState: State<String> = _correoState
 
-    private val _password = MutableLiveData<String>()
-    val password: LiveData<String> = _password
+    private val _contrasenaState = mutableStateOf("")
+    val contrasenaState: State<String> = _contrasenaState
 
-    private val _loginEnable = MutableLiveData<Boolean>()
-    val loginEnable: LiveData<Boolean> = _loginEnable
+    private val _rememberMeState = mutableStateOf(false)
+    val rememberMeState: State<Boolean> = _rememberMeState
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isError = mutableStateOf(false)
+    val isError: State<Boolean> = _isError
 
-    private val _loginSuccess = MutableLiveData<Boolean>()
-    val loginSuccess: LiveData<Boolean> = _loginSuccess
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> = _isLoading
 
-    private val _showDialog = MutableLiveData<Boolean>()
-    val showDialog: LiveData<Boolean> = _showDialog
+    private val _loginSuccess = mutableStateOf(false)
+    val loginSuccess: State<Boolean> = _loginSuccess
 
-    private val _dialogMessage = MutableLiveData<String>()
-    val dialogMessage: LiveData<String> = _dialogMessage
+    private val _showDialog = mutableStateOf(false)
+    val showDialog: State<Boolean> = _showDialog
 
-    private val _estudiante = MutableLiveData<tbEstudiante?>()
-    val estudiante: LiveData<tbEstudiante?> = _estudiante
+    private val _dialogMessage = mutableStateOf("")
+    val dialogMessage: State<String> = _dialogMessage
 
-    private val _isError = MutableLiveData<Boolean>()
-    val isError: LiveData<Boolean> = _isError
+    private val _estudiante = mutableStateOf<tbEstudiante?>(null)
+    val estudiante: State<tbEstudiante?> = _estudiante
 
-    // Función para actualizar el estado del correo y la contraseña
-    fun onLoginChanged(email: String, password: String) {
-        _email.value = email
-        _password.value = password
-        _loginEnable.value = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+    fun setEmail(email: String) {
+        _correoState.value = email
+    }
+
+    fun setPassword(password: String) {
+        _contrasenaState.value = password
+    }
+
+    fun setRememberMe(checked: Boolean) {
+        _rememberMeState.value = checked
+    }
+
+    fun submitLoginForm() {
+        login()
+    }
+
+    fun setDialogMessage(message: String) {
+        _dialogMessage.value = message
+        mostrarDialog()
+    }
+
+    fun mostrarDialog() {
+        _showDialog.value = true
+    }
+    fun dismissDialog() {
+        _showDialog.value = false
+        _dialogMessage.value = ""
+        _loginSuccess.value = false
     }
 
     // Función para iniciar sesión
-    fun onLoginSelected() {
+    fun login() {
+        Log.d("Login","se llama a la funcion login()")
         _isLoading.value = true
+        Log.d("Login","Se inicia verificación")
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("Login","Inicia corutina")
             try {
-                val loginRequest = LoginRequest(_email.value ?: "", _password.value ?: "")
-                val response: Response<LoginResponse> = repository.login(loginRequest)
-                if (response.isSuccessful && response.body() != null) {
-                    val loginResponse = response.body()
-                    if (loginResponse!!.success && loginResponse.data != null) {
-                        val idEstudiante = loginResponse.data.idEstudiante
-                        _estudiante.postValue(tbEstudiante(idEstudiante = idEstudiante))
-                        _loginSuccess.postValue(true)
-                    } else {
-                        _isError.postValue(true)
-                    }
+                Log.d("Login","Se realiza la peticion")
+                val loginRequest = LoginRequest(_correoState.value, _contrasenaState.value)
+                //val response = loginUseCase.login(loginRequest)
+                val response = loginRepository.login(loginRequest)
+                Log.d("Login","peticion:"+response.toString())
+                if (response.success && response.data != null) {
+                    println("JSON recibido con éxito")
+                    println(response.success)
+                    println(response.msg)
+                    println(response.data)
+
+                    val rptaUsuario = response.data
+                    _estudiante.value = tbEstudiante(
+                        idEstudiante = rptaUsuario.idEstudiante ?: 0,
+                        nombreEstudiante = rptaUsuario.nombreEstudiante,
+                        apellidoEstudiante = rptaUsuario.apellidoEstudiante,
+                        correoEstudiante = rptaUsuario.correoEstudiante,
+                        contrasenaEstudiante = rptaUsuario.contraseñaEstudiante
+                    )
+                    _loginSuccess.value = true
+
                 } else {
-                    _isError.postValue(true)
+                    _isError.value = true
                 }
-                _isLoading.postValue(false)
+                _isLoading.value = false
             } catch (e: Exception) {
-                _isError.postValue(true)
-                _isLoading.postValue(false)
+                Log.e("Login","Error:"+e.toString())
+                _isError.value = true
+                _isLoading.value = false
             }
         }
     }
-
-    // Función para descartar el diálogo
-    fun dismissDialog() {
-        _showDialog.value = false
-    }
 }
-
-
-
-/*private val _loginEnable = MutableLiveData<Boolean>()
-val loginEnable: LiveData<Boolean> = _loginEnable
-
-private val _isLoading = MutableLiveData<Boolean>()
-val isLoading: LiveData<Boolean> = _isLoading
-
-fun onLoginChanged(email: String, password: String) {
-    _email.value = email
-    _password.value = password
-    _loginEnable.value = isValidEmail(email) && isValidPassword(password)
-}
-
-private fun isValidPassword(password: String): Boolean = password.length > 6
-
-private fun isValidEmail(email: String): Boolean =
-    Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-suspend fun onLoginSelected() {
-    _isLoading.value = true
-    /*delay(4000)
-    _isLoading.value = false*/
-}
-}
-
-*/

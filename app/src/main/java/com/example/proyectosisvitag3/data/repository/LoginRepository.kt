@@ -8,7 +8,7 @@ import retrofit2.Response
 class LoginRepository {
     private val apiService = ApiInstance.apiInstance
 
-    suspend fun login(loginRequest: LoginRequest): Response<LoginResponse> {
+    suspend fun login(loginRequest: LoginRequest): LoginResponse {
         return apiService.login(loginRequest)
     }
 }

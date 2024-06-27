@@ -1,9 +1,12 @@
 package com.example.proyectosisvitag3.ui.theme.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class tbEstudiante (
-    val idEstudiante: Int? = null,
-    val nombreEstudiante: String? = null,
-    val apellidoEstudiante: String? = null,
-    val correoEstudiante: String? = null,
-    val contraseñaEstudiante: String? = null,
+    val idEstudiante: Int,
+    val nombreEstudiante: String,
+    val apellidoEstudiante: String,
+    val correoEstudiante: String,
+    @SerializedName("contraseñaEstudiante")
+    val contrasenaEstudiante: String,
 )
