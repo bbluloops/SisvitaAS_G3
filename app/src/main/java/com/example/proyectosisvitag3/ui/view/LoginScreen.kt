@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import com.example.proyectosisvitag3.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -30,6 +31,8 @@ fun LoginScreen(
     val dialogMessage by loginViewModel.dialogMessage
 
     Column (
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
@@ -70,8 +73,11 @@ fun Login(
     val dialogMessage:String by loginViewModel.dialogMessage
 
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 32.dp),
     ) {
+        //Spacer(modifier = Modifier.padding(60.dp))
 
         HeaderImage(
             Modifier
@@ -176,7 +182,7 @@ fun PasswordField(
         modifier = Modifier
             .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        //visualTransformation = PasswordVisualTransformation(), // Contraseña en *****
+        visualTransformation = PasswordVisualTransformation(), // Contraseña en *****
         singleLine = true,
         maxLines = 1,
         placeholder = {

@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.proyectosisvitag3.ui.theme.data.model.tbEstudiante
 import com.example.proyectosisvitag3.ui.theme.iu.*
 import com.example.proyectosisvitag3.ui.theme.iu.formulario.*
+import com.example.proyectosisvitag3.ui.view.EspecialistaTestScreen
+import com.example.proyectosisvitag3.ui.view.MapaDeCalor
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,11 +21,13 @@ class MainActivity : ComponentActivity() {
                 composable("mainScreen") { MainScreen(navController) }
                 composable("loginScreen") { LoginScreen(navController, LoginViewModel()) }
                 composable("loginScreenEspecialista") { LoginScreenEspecialista(navController, LoginEspecialistaViewModel()) }
-                composable("studentMainScreen") { StudentMainScreen(navController) }
-                composable("especialistaMainScreen") { EspecialistaMainScreen() }
-                composable("termsAndConditionsScreen"){ TermsAndConditionsScreen(navController )}
+                composable("studentMainScreen") { StudentMainScreen(navController)}
+                composable("especialistaMainScreen") { EspecialistaMainScreen(navController) }
+                composable("termsAndConditionsScreen"){ TermsAndConditionsScreen(navController)}
                 composable("evaluarResultadoScreen") { EvaluarResultadoScreen(navController, EvaluarResultadoViewModel()) }
                 composable("testScreen") { PreguntasCuestionario() }
+                composable("mapaDeCalor") { MapaDeCalor() }
+                composable("especialistaTestScreen"){ EspecialistaTestScreen()}
             }
         }
     }

@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.compose.rememberNavController
 import android.util.Log
+import com.example.proyectosisvitag3.ui.theme.data.model.tbEstudiante
 
 @Composable
 fun StudentMainScreen(navController: NavHostController) {
@@ -48,9 +49,9 @@ fun StudentMainScreen(navController: NavHostController) {
         }
     }
 }
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewStudentMainScreen() {
     StudentMainScreen(rememberNavController())
-}
+}*/

@@ -38,7 +38,7 @@ fun loadPreguntas() {
         } catch (e: Exception) {
             Log.e("Cuestionario scope", e.toString())
         } finally {
-            _isLoading.postValue(false) // Ensure loading state is updated
+            _isLoading.postValue(false)
         }
     }
 
