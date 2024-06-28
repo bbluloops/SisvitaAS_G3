@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun EvaluarResultadoScreen(navController: NavHostController, viewModel: EvaluarResultadoViewModel){
+    /*
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.White
@@ -128,7 +129,7 @@ fun UpdateButton(updateEnable: Boolean, onUpdateSelected: () -> Unit) {
         ), enabled = updateEnable
     ) {
         Text(text = "Actualizar")
-    }
+    }*/
 }
 
 /* @Preview(showBackground = true)

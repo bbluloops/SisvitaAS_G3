@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.compose.rememberNavController
+import android.util.Log
 
 @Composable
 fun StudentMainScreen(navController: NavHostController) {
@@ -30,7 +31,14 @@ fun StudentMainScreen(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { navController.navigate("termsAndConditionsScreen") },
+                onClick = {
+                    try{
+                        navController.navigate("termsAndConditionsScreen")
+                    }catch(e:Exception)
+                    {
+                        Log.e("StudentMainScreen",e.toString())
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp)

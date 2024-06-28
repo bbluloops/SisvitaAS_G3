@@ -6,13 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectosisvitag3.ui.theme.iu.MainScreen
-import com.example.proyectosisvitag3.ui.theme.iu.LoginScreen
-import com.example.proyectosisvitag3.ui.theme.iu.EvaluarResultadoScreen
-import com.example.proyectosisvitag3.ui.theme.iu.StudentMainScreen
-import com.example.proyectosisvitag3.ui.theme.iu.LoginViewModel
-import com.example.proyectosisvitag3.ui.theme.iu.EvaluarResultadoViewModel
-import com.example.proyectosisvitag3.ui.theme.iu.formulario.PreguntasCuestionario
+import com.example.proyectosisvitag3.ui.theme.iu.*
+import com.example.proyectosisvitag3.ui.theme.iu.formulario.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,8 +18,9 @@ class MainActivity : ComponentActivity() {
                 composable("mainScreen") { MainScreen(navController) }
                 composable("loginScreen") { LoginScreen(navController, LoginViewModel()) }
                 composable("studentMainScreen") { StudentMainScreen(navController) }
+                composable("termsAndConditionsScreen"){ TermsAndConditionsScreen(navController )}
                 composable("evaluarResultadoScreen") { EvaluarResultadoScreen(navController, EvaluarResultadoViewModel()) }
-                composable("testScreen") { PreguntasCuestionario(CantPreguntas = 10, CantRespuestas = 4) }
+                composable("testScreen") { PreguntasCuestionario() }
             }
         }
     }
