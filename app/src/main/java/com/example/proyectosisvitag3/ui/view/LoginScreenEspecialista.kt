@@ -22,23 +22,23 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun LoginScreen(
+fun LoginScreenEspecialista(
     navController: NavHostController,
-    loginViewModel: LoginViewModel = viewModel()
+    loginEspecialistaViewModel: LoginEspecialistaViewModel = viewModel()
 ) {
-    val showDialog by loginViewModel.showDialog
-    val dialogMessage by loginViewModel.dialogMessage
+    val showDialog by loginEspecialistaViewModel.showDialog
+    val dialogMessage by loginEspecialistaViewModel.dialogMessage
 
     Column (
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Login(loginViewModel,navController)
+        Login(loginEspecialistaViewModel,navController)
     }
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = { loginViewModel.dismissDialog() },
+            onDismissRequest = { loginEspecialistaViewModel.dismissDialog() },
             title = {
                 Text(text = "Notificación")
             },
@@ -47,7 +47,7 @@ fun LoginScreen(
             },
             confirmButton = {
                 Button(
-                    onClick = { loginViewModel.dismissDialog() }
+                    onClick = { loginEspecialistaViewModel.dismissDialog() }
                 ) {
                     Text("OK")
                 }
@@ -59,30 +59,30 @@ fun LoginScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Login(
-    loginViewModel: LoginViewModel,
+    loginEspecialistaViewModel: LoginEspecialistaViewModel,
     navController: NavHostController
 ) {
-    val correo: String by loginViewModel.correoState
-    val contrasena: String by loginViewModel.contrasenaState
-    val isError: Boolean by loginViewModel.isError
-    val loginSuccess: Boolean by loginViewModel.loginSuccess
-    val showDialog: Boolean by loginViewModel.showDialog
-    val dialogMessage:String by loginViewModel.dialogMessage
+    val correo: String by loginEspecialistaViewModel.correoState
+    val contrasena: String by loginEspecialistaViewModel.contrasenaState
+    val isError: Boolean by loginEspecialistaViewModel.isError
+    val loginSuccess: Boolean by loginEspecialistaViewModel.loginSuccess
+    val showDialog: Boolean by loginEspecialistaViewModel.showDialog
+    val dialogMessage:String by loginEspecialistaViewModel.dialogMessage
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
 
-        HeaderImage(
+        HeaderImageEspecialista(
             Modifier
                 .align(Alignment.CenterHorizontally)
                 .size(200.dp)
         )
 
         Spacer(modifier = Modifier.padding(16.dp))
-        EmailField(
+        EmailFieldEspecialista(
             value = correo,
-            onValueChange = {loginViewModel.setEmail(it)},
+            onValueChange = {loginEspecialistaViewModel.setEmail(it)},
             placeholder = "correo",
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Email,
@@ -90,9 +90,9 @@ fun Login(
             )
         )
         Spacer(modifier = Modifier.padding(16.dp))
-        PasswordField(
+        PasswordFieldEspecialista(
             value = contrasena,
-            onValueChange = {loginViewModel.setPassword(it)},
+            onValueChange = {loginEspecialistaViewModel.setPassword(it)},
             placeholder = "contraseña",
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Email,
@@ -104,9 +104,9 @@ fun Login(
         ForgotPassword(Modifier.align(Alignment.End)) //Olvidaste tu contra*/
 
         Spacer(modifier = Modifier.padding(16.dp))
-        LoginButton(
+        LoginButtonEspecialista(
             texto = "Iniciar Sesión",
-            nav = { loginViewModel.login()}
+            nav = { loginEspecialistaViewModel.login()}
         )
     }
     if (isError) {
@@ -124,13 +124,13 @@ fun Login(
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 20.dp)
         )
-        navController.navigate("studentMainScreen")
+        navController.navigate("especialistaMainScreen")
     }
 
 }
 
 @Composable
-fun LoginButton(
+fun LoginButtonEspecialista(
     texto:String,
     nav: () -> Unit
 ) {
@@ -164,7 +164,7 @@ fun ForgotPassword(modifier: Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordField(
+fun PasswordFieldEspecialista(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -186,7 +186,7 @@ fun PasswordField(
 }
 
 @Composable
-fun EmailField(
+fun EmailFieldEspecialista(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
@@ -207,9 +207,9 @@ fun EmailField(
 }
 
 @Composable
-fun HeaderImage(modifier: Modifier) {
+fun HeaderImageEspecialista(modifier: Modifier) {
     Image(
-        painter = painterResource(id = R.drawable.login_estudiantes),
+        painter = painterResource(id = R.drawable.login_especilaistas),
         contentDescription = "Header",
         modifier = modifier
     )

@@ -7,9 +7,7 @@ import com.example.proyectosisvitag3.ui.theme.data.model.UpdateResponse
 import com.example.proyectosisvitag3.ui.theme.data.model.*
 import kotlin.collections.*
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.Response
 
 interface ApiService {
     @POST("/Estudiantes/v1/login")
@@ -22,4 +20,7 @@ interface ApiService {
     suspend fun preguntas(@Body idTest: Map<String,Int>) : Map<String,Set<PreguntasResponse>>
     @POST("/Tests/v1/respuesta")
     suspend fun respuesta(@Body respuestaRequest: RespuestaRequest) : ResultadoResponse
+
+    @POST("/Especialistas/v1/login")
+    suspend fun loginEspecialista(@Body loginRequestEspecialista: LoginRequestEspecialista): LoginResponseEspecialista
 }

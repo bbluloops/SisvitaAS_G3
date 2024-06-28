@@ -15,6 +15,7 @@ object ApiInstance {
     private val retrofit by lazy{
         Retrofit.Builder()
             .baseUrl("https://sisvitag3.onrender.com")
+            //.baseUrl("http://127.0.0.1:5000")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

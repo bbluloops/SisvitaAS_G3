@@ -17,7 +17,9 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "mainScreen") {
                 composable("mainScreen") { MainScreen(navController) }
                 composable("loginScreen") { LoginScreen(navController, LoginViewModel()) }
+                composable("loginScreenEspecialista") { LoginScreenEspecialista(navController, LoginEspecialistaViewModel()) }
                 composable("studentMainScreen") { StudentMainScreen(navController) }
+                composable("especialistaMainScreen") { EspecialistaMainScreen() }
                 composable("termsAndConditionsScreen"){ TermsAndConditionsScreen(navController )}
                 composable("evaluarResultadoScreen") { EvaluarResultadoScreen(navController, EvaluarResultadoViewModel()) }
                 composable("testScreen") { PreguntasCuestionario() }

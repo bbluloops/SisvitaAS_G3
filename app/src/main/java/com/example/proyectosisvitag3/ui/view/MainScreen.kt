@@ -56,7 +56,7 @@ fun MainScreen(navController: NavHostController) {
                         .size(200.dp)
                 )
                 Button(
-                    onClick = { navController.navigate("loginScreen") }, // Aquí debería ir la navegación a la pantalla de login para profesionales
+                    onClick = { navController.navigate("loginScreenEspecialista") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 80.dp),
