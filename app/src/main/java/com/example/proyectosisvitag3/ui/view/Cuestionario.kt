@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.util.Log
+import androidx.compose.runtime.livedata.observeAsState
 import com.example.proyectosisvitag3.ui.theme.iu.CuestionarioViewModel
 import com.example.proyectosisvitag3.ui.theme.data.model.*
 
