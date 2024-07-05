@@ -1,5 +1,7 @@
 package com.example.proyectosisvitag3.ui.theme.network
 
+import com.example.proyectosisvitag3.data.model.request.RecomendacionApoyoRequest
+import com.example.proyectosisvitag3.data.model.response.RecomendacionApoyoResponse
 import com.example.proyectosisvitag3.ui.theme.data.model.LoginRequest
 import com.example.proyectosisvitag3.ui.theme.data.model.LoginResponse
 import com.example.proyectosisvitag3.ui.theme.data.model.UpdateRequest
@@ -23,4 +25,9 @@ interface ApiService {
 
     @POST("/Especialistas/v1/login")
     suspend fun loginEspecialista(@Body loginRequestEspecialista: LoginRequestEspecialista): LoginResponseEspecialista
+
+    @POST("/RecomendacionesApoyos/v1/insert")
+    suspend fun insertarRecomendaciones(@Body request: RecomendacionApoyoRequest) : RecomendacionApoyoResponse
+
+
 }
