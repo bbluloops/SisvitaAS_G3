@@ -21,12 +21,15 @@ import com.example.proyectosisvitag3.ui.theme.iu.CuestionarioViewModel
 import com.example.proyectosisvitag3.ui.theme.data.model.*
 
 @Composable
-fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewModel()) {
+fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewModel(),
+                          nombreTest: String,
+                          idTest:String) {
     Log.d("Cuestionario View","Obteniendo datos")
     cuestionarioViewModel.loadPreguntas()
+    val resultadoResponse: ResultadoResponse by cuestionarioViewModel.resultadoResponse
     val preguntas: Map<String,Set<PreguntasResponse>> by cuestionarioViewModel.preguntas
     var respuestasSeleccionadas by remember { mutableStateOf<Map<String, PreguntasResponse>>(emptyMap()) }
-
+    var showDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -34,11 +37,10 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Test Becker",
+            text = "Test de ${nombreTest}",
             style = TextStyle(fontSize = 24.sp, color = Color.Black),
             modifier = Modifier.padding(vertical = 16.dp)
         )
-
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -46,7 +48,7 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            preguntas!!.forEach { (question, answers) ->
+            preguntas.forEach { (question, answers) ->
                 item {
                     Box(
                         modifier = Modifier
@@ -67,9 +69,10 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
                                     answerText = answer.respuestaOpcionTest,
                                     selectedAnswer = respuestasSeleccionadas[question]?.respuestaOpcionTest,
                                     onSelected = {
-                                        respuestasSeleccionadas = respuestasSeleccionadas.toMutableMap().apply {
-                                            put(question, answer)
-                                        }
+                                        respuestasSeleccionadas =
+                                            respuestasSeleccionadas.toMutableMap().apply {
+                                                put(question, answer)
+                                            }
                                     }
                                 )
                             }
@@ -80,12 +83,14 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
             }
         }
 
-        val allQuestionsAnswered = preguntas!!.keys.all { respuestasSeleccionadas.containsKey(it) }
+        val allQuestionsAnswered =
+            preguntas.keys.all { respuestasSeleccionadas.containsKey(it) }
 
         Button(
             onClick = {
-                Log.d("Cuestionario",respuestasSeleccionadas.toString())
-                cuestionarioViewModel.sendRespuesta(respuestasSeleccionadas)
+                Log.d("Cuestionario", respuestasSeleccionadas.toString())
+                cuestionarioViewModel.sendRespuesta(respuestasSeleccionadas,idTest)
+                showDialog = true
             },
             enabled = allQuestionsAnswered,
             modifier = Modifier
@@ -93,14 +98,41 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
                 .padding(vertical = 16.dp)
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (allQuestionsAnswered) Color(0xFFFF4303) else Color(0xFFF78058),
+                containerColor = if (allQuestionsAnswered) Color(0xFFFF4303) else Color(
+                    0xFFF78058
+                ),
                 contentColor = Color.White,
                 disabledContentColor = Color.White
             )
         ) {
             Text(text = "Enviar Test")
         }
+        if (showDialog) {
+            resultadoResponse.let {
+                AlertDialog(
+                    onDismissRequest = {
+                        showDialog = false // Close dialog when dismissed
+                    },
+                    title = {
+                        Text(text = "Test Enviado")
+                    },
+                    text = {
+                        Text(text = "puntaje=" + it.puntajeResultadoTest + "\ninfoResultado=" + it.infoResultado)
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                showDialog = false // Close dialog on button click
+                            }
+                        ) {
+                            Text("OK")
+                        }
+                    }
+                )
+            }
+        }
     }
+
 }
 
 @Composable
@@ -133,5 +165,5 @@ fun RespuestasCuestionario(
 @Preview
 @Composable
 fun PreviewPreguntasCuestionario() {
-    PreguntasCuestionario()
+    PreguntasCuestionario(CuestionarioViewModel(),"","")
 }

@@ -13,10 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.compose.rememberNavController
 import android.util.Log
-import com.example.proyectosisvitag3.ui.theme.data.model.tbEstudiante
 
 @Composable
-fun StudentMainScreen(navController: NavHostController) {
+fun StudentMainScreen(navController: NavHostController,
+                      nombreEstudiante:String,
+                      apellidoEstudiante:String) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.White
@@ -34,7 +35,7 @@ fun StudentMainScreen(navController: NavHostController) {
             Button(
                 onClick = {
                     try{
-                        navController.navigate("termsAndConditionsScreen")
+                        navController.navigate("escogerTestScreen")
                     }catch(e:Exception)
                     {
                         Log.e("StudentMainScreen",e.toString())
@@ -44,14 +45,30 @@ fun StudentMainScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp)
             ) {
-                Text(text = "Iniciar Test")
+                Text(text = "Realizar Test")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    try{
+                        navController.navigate("listTestScreen/${nombreEstudiante}/${apellidoEstudiante}")
+                    }catch(e:Exception)
+                    {
+                        Log.e("StudentMainScreen",e.toString())
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp)
+            ) {
+                Text(text = "Ver mis Test")
             }
         }
     }
 }
-/*
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewStudentMainScreen() {
-    StudentMainScreen(rememberNavController())
-}*/
+    StudentMainScreen(rememberNavController(),"","")
+}
