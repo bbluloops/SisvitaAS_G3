@@ -74,7 +74,7 @@ fun LoginEspecialista(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
 
-        HeaderImage(
+        HeaderImageEspecialista(
             Modifier
                 .align(Alignment.CenterHorizontally)
                 .size(200.dp)
@@ -128,4 +128,12 @@ fun LoginEspecialista(
         navController.navigate("especialistaMainScreen/${idEspecialista}")
     }
 
+}
+@Composable
+fun HeaderImageEspecialista(modifier: Modifier) {
+    Image(
+        painter = painterResource(id = R.drawable.login_especilaistas),
+        contentDescription = "Header",
+        modifier = modifier
+    )
 }

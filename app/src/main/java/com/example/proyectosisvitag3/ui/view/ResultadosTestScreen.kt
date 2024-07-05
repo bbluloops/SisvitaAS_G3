@@ -3,14 +3,23 @@ package com.example.proyectosisvitag3.ui.view
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.proyectosisvitag3.data.model.response.ResultadoDetallado
 import com.example.proyectosisvitag3.ui.viewmodel.ResultadosTestViewModel
@@ -60,89 +69,109 @@ fun ResultadosTestScreen(navController: NavController,
         listaTest = resultados.map { it.nombreTest }.toSet()
         listaAnsiedad = resultados.map{ it.infoResultado}.toSet()
     }
-    Column(Modifier.verticalScroll(rememberScrollState())) {
-        Card {
-            Text("Tipo de test")
-            listaTest.forEach{
-                    test ->
-                Text(test)
-                RadioButton(selected = tests == test, onClick = { tests = test})
-            }
-            Text("Nivel de ansiedad:")
-            listaAnsiedad.forEach{
-                Text(it)
-                RadioButton(selected = ansiedad == it, onClick = { ansiedad = it })
-            }
-            Button(onClick = {sinFiltro = !sinFiltro}){
-                if(sinFiltro) {
-                    Text("Aplicar Filtro")
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White
+    ) {
+        Column(
+            Modifier.verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp)
+                ) {
+                    Text("Tipo de test")
+                    listaTest.forEach{
+                            test ->
+                        Text(test)
+                        RadioButton(selected = tests == test, onClick = { tests = test})
+                    }
+                    Text("Nivel de ansiedad:")
+                    listaAnsiedad.forEach{
+                        Text(it)
+                        RadioButton(selected = ansiedad == it, onClick = { ansiedad = it })
+                    }
+                    Button(onClick = {sinFiltro = !sinFiltro}){
+                        if(sinFiltro) {
+                            Text("Aplicar Filtro")
+                        }
+                        else{
+                            Text("Eliminar filtro")
+                        }
+                    }
                 }
-                else{
-                    Text("Eliminar filtro")
+            }
+            Row {
+                Button(onClick = { showFechaInicial = true }) {
+                    Text("Seleccionar fecha de inicio")
+                }
+                Button(onClick = { showFechaFinal = true }) {
+                    Text(text = "Seleccionar fecha final")
                 }
             }
-        }
-        Row {
-            Button(onClick = { showFechaInicial = true }) {
-                Text("Seleccionar fecha de inicio")
-            }
-            Button(onClick = { showFechaFinal = true }) {
-                Text(text = "Seleccionar fecha final")
-            }
-        }
-        if (showFechaInicial) {
-            val datePicker = rememberDatePickerState()
-            DatePickerDialog(onDismissRequest = { showFechaInicial = false }, confirmButton = {
-                TextButton(onClick = {
-                    if (datePicker.selectedDateMillis != null) {
-                        val instant = Instant.ofEpochMilli(datePicker.selectedDateMillis!!)
-                        fechaInicial = instant.atZone(ZoneId.systemDefault()).toLocalDate()
-                        showFechaInicial = false
+            if (showFechaInicial) {
+                val datePicker = rememberDatePickerState()
+                DatePickerDialog(onDismissRequest = { showFechaInicial = false }, confirmButton = {
+                    TextButton(onClick = {
+                        if (datePicker.selectedDateMillis != null) {
+                            val instant = Instant.ofEpochMilli(datePicker.selectedDateMillis!!)
+                            fechaInicial = instant.atZone(ZoneId.systemDefault()).toLocalDate()
+                            showFechaInicial = false
+                        }
+                    }) {
+                        Text(text = "Ok")
                     }
                 }) {
-                    Text(text = "Ok")
+                    DatePicker(state = datePicker)
                 }
-            }) {
-                DatePicker(state = datePicker)
             }
-        }
-        if (showFechaFinal) {
-            val datePicker = rememberDatePickerState()
-            DatePickerDialog(onDismissRequest = { showFechaFinal = false }, confirmButton = {
-                TextButton(onClick = {
-                    if (datePicker.selectedDateMillis != null) {
-                        val instant = Instant.ofEpochMilli(datePicker.selectedDateMillis!!)
-                        fechaFinal = instant.atZone(ZoneId.systemDefault()).toLocalDate()
-                        showFechaFinal = false
+            if (showFechaFinal) {
+                val datePicker = rememberDatePickerState()
+                DatePickerDialog(onDismissRequest = { showFechaFinal = false }, confirmButton = {
+                    TextButton(onClick = {
+                        if (datePicker.selectedDateMillis != null) {
+                            val instant = Instant.ofEpochMilli(datePicker.selectedDateMillis!!)
+                            fechaFinal = instant.atZone(ZoneId.systemDefault()).toLocalDate()
+                            showFechaFinal = false
+                        }
+                    }) {
+                        Text(text = "Ok")
                     }
                 }) {
-                    Text(text = "Ok")
+                    DatePicker(state = datePicker)
                 }
-            }) {
-                DatePicker(state = datePicker)
             }
-        }
 
-        val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+            val dateFormatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
 
-        resultados.filter { resultado ->
-            val fechaResultado = LocalDate.parse(resultado.fechaResultado, dateFormatter)
-            (fechaResultado in fechaInicial..fechaFinal && ((resultado.nombreTest == tests && resultado.infoResultado == ansiedad)|| sinFiltro))
-        }.forEach { resultado ->
-            Row(horizontalArrangement = Arrangement.Center) {
-                TestCard(
-                    navController = navController,
-                    nombreTest = resultado.nombreTest,
-                    nombreUsuario = "${resultado.nombreEstudiante} ${resultado.apellidoEstudiante}",
-                    puntaje = resultado.puntajeResultadoTest,
-                    nivelAnsiedad = resultado.infoResultado,
-                    idResultado = resultado.idResultadoTest,
-                    idEspecialista = idEspecialista
-                )
+            resultados.filter { resultado ->
+                val fechaResultado = LocalDate.parse(resultado.fechaResultado, dateFormatter)
+                (fechaResultado in fechaInicial..fechaFinal && ((resultado.nombreTest == tests && resultado.infoResultado == ansiedad)|| sinFiltro))
+            }.forEach { resultado ->
+                Row(horizontalArrangement = Arrangement.Center) {
+                    TestCard(
+                        navController = navController,
+                        nombreTest = resultado.nombreTest,
+                        nombreUsuario = "${resultado.nombreEstudiante} ${resultado.apellidoEstudiante}",
+                        puntaje = resultado.puntajeResultadoTest,
+                        nivelAnsiedad = resultado.infoResultado,
+                        idResultado = resultado.idResultadoTest,
+                        idEspecialista = idEspecialista
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-        }
-        Button(onClick = { navController.navigate("especialistaMainScreen/${idEspecialista}") }) {
-            Text(text = "Volver al menu")
+            Button(onClick = { navController.navigate("especialistaMainScreen/${idEspecialista}") }) {
+                Text(text = "Volver al menu")
+            }
         }
     }
 }
@@ -152,15 +181,25 @@ fun TestCard(navController: NavController, nombreTest: String, nombreUsuario: St
              nivelAnsiedad: String,
              idResultado: String,
              idEspecialista: String) {
-    Card {
-        Text(text = "Test de $nombreTest")
-        Text(text = nombreUsuario)
-        Text(text = "Puntaje del test: $puntaje")
-        Text(text = "Nivel de ansiedad: $nivelAnsiedad")
-        Button(onClick = {
-            navController.navigate("evaluarResultadoScreen/${idResultado}/${puntaje}/${idEspecialista}/${nivelAnsiedad}/${nombreTest}")
-        }) {
-            Text(text = "Evaluar Test")
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp)
+        ) {
+            Text(text = "Test de $nombreTest")
+            Text(text = nombreUsuario)
+            Text(text = "Puntaje del test: $puntaje")
+            Text(text = "Nivel de ansiedad: $nivelAnsiedad")
+            Button(onClick = {
+                navController.navigate("evaluarResultadoScreen/${idResultado}/${puntaje}/${idEspecialista}/${nivelAnsiedad}/${nombreTest}")
+            }) {
+                Text(text = "Evaluar Test")
+            }
         }
     }
 }
