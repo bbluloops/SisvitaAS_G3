@@ -4,8 +4,6 @@ import com.example.proyectosisvitag3.data.model.request.RecomendacionApoyoReques
 import com.example.proyectosisvitag3.data.model.response.RecomendacionApoyoResponse
 import com.example.proyectosisvitag3.ui.theme.data.model.LoginRequest
 import com.example.proyectosisvitag3.ui.theme.data.model.LoginResponse
-import com.example.proyectosisvitag3.ui.theme.data.model.UpdateRequest
-import com.example.proyectosisvitag3.ui.theme.data.model.UpdateResponse
 import com.example.proyectosisvitag3.ui.theme.data.model.*
 import kotlin.collections.*
 import retrofit2.http.Body
@@ -14,9 +12,6 @@ import retrofit2.http.POST
 interface ApiService {
     @POST("/Estudiantes/v1/login")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
-
-    @POST("/ResultadoTests/v1/update")
-    suspend fun update(@Body updateRequest: UpdateRequest): UpdateResponse
 
     @POST("/Tests/v1/preguntas")
     suspend fun preguntas(@Body idTest: Map<String,Int>) : Map<String,Set<PreguntasResponse>>

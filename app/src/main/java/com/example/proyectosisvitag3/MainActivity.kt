@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
                 composable("studentMainScreen") { StudentMainScreen(navController)}
                 composable("especialistaMainScreen") { EspecialistaMainScreen(navController) }
                 composable("termsAndConditionsScreen"){ TermsAndConditionsScreen(navController)}
-                composable("evaluarResultadoScreen") { EvaluarResultadoScreen(navController, EvaluarResultadoViewModel()) }
                 composable("testScreen") { PreguntasCuestionario() }
                 composable("mapaDeCalor") { MapaDeCalor() }
                 composable("especialistaTestScreen"){ EspecialistaTestScreen()}

@@ -34,7 +34,7 @@ fun EspecialistaMainScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Pantalla Principal del Alumno",
+                text = "Pantalla Principal del Especialista",
                 style = TextStyle(fontSize = 24.sp, color = Color.Black)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -71,4 +71,3 @@ fun EspecialistaMainScreen(navController: NavHostController) {
         }
     }
 }
-
