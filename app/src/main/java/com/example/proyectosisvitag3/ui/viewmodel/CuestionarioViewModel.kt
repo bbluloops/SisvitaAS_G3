@@ -29,14 +29,14 @@ class CuestionarioViewModel : ViewModel() {
     private val _isLoading = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
 
-    fun loadPreguntas() {
+    fun loadPreguntas(idTest: String) {
         Log.d("Cuestionario", "Cargar preguntas")
         _isLoading.value = true // Initialize loading state
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.d("Cuestionario", "en viewModelScope")
-                val response = repository.preguntas(5)
+                val response = repository.preguntas(idTest.toInt())
                 _preguntas.value = response
                 Log.d("Cuestionario", "Preguntas cargadas: $_preguntas")
                 _isLoading.value = false

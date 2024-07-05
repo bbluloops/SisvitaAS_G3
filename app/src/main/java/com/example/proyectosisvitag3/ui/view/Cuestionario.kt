@@ -25,7 +25,7 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
                           nombreTest: String,
                           idTest:String) {
     Log.d("Cuestionario View","Obteniendo datos")
-    cuestionarioViewModel.loadPreguntas()
+    cuestionarioViewModel.loadPreguntas(idTest)
     val resultadoResponse: ResultadoResponse by cuestionarioViewModel.resultadoResponse
     val preguntas: Map<String,Set<PreguntasResponse>> by cuestionarioViewModel.preguntas
     var respuestasSeleccionadas by remember { mutableStateOf<Map<String, PreguntasResponse>>(emptyMap()) }
