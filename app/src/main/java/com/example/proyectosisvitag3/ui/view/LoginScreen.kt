@@ -65,6 +65,7 @@ fun Login(
     loginViewModel: LoginViewModel,
     navController: NavHostController
 ) {
+    val estudiante by loginViewModel.estudiante
     val correo: String by loginViewModel.correoState
     val contrasena: String by loginViewModel.contrasenaState
     val isError: Boolean by loginViewModel.isError
@@ -130,7 +131,7 @@ fun Login(
             fontSize = 16.sp,
             modifier = Modifier.padding(top = 20.dp)
         )
-        navController.navigate("studentMainScreen")
+        navController.navigate("studentMainScreen/${estudiante!!.nombreEstudiante}/${estudiante!!.apellidoEstudiante}")
     }
 
 }

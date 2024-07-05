@@ -1,20 +1,35 @@
 package com.example.proyectosisvitag3.ui.theme.iu
 
+import android.util.Patterns
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
-import com.example.proyectosisvitag3.ui.theme.data.model.LoginRequestEspecialista
-import com.example.proyectosisvitag3.ui.theme.data.model.tbEspecialistas
+import kotlinx.coroutines.delay
+import com.example.proyectosisvitag3.ui.theme.data.model.LoginRequest
+import com.example.proyectosisvitag3.ui.theme.data.model.LoginResponse
+import com.example.proyectosisvitag3.ui.theme.data.model.tbEstudiante
+import com.example.proyectosisvitag3.ui.theme.network.ApiInstance
+import com.example.proyectosisvitag3.ui.theme.data.repository.LoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
-import com.example.proyectosisvitag3.ui.theme.data.repository.LoginRepositoryEspecialista
+import com.example.proyectosisvitag3.data.model.response.EstudianteResponse
+import com.example.proyectosisvitag3.domain.LoginUseCase
+import com.example.proyectosisvitag3.ui.theme.data.model.LoginEspecialistaRequest
+import com.example.proyectosisvitag3.ui.theme.data.model.tbEspecialistas
+import com.example.proyectosisvitag3.ui.theme.data.repository.LoginEspecialistaRepository
+import retrofit2.Response
 
-class LoginEspecialistaViewModel : ViewModel() {
+class LoginViewModelEspecialista : ViewModel() {
 
     //private val loginUseCase = LoginUseCase()
-    private val loginRepositoryEspecialista = LoginRepositoryEspecialista()
+    private val loginRepository = LoginEspecialistaRepository()
+
+    private val _idEspecialista = mutableStateOf("")
+    val idEspecialista: State<String> = _idEspecialista
 
     private val _correoState = mutableStateOf("")
     val correoState: State<String> = _correoState
@@ -41,7 +56,7 @@ class LoginEspecialistaViewModel : ViewModel() {
     val dialogMessage: State<String> = _dialogMessage
 
     private val _especialista = mutableStateOf<tbEspecialistas?>(null)
-    val estudiante: State<tbEspecialistas?> = _especialista
+    val especialistas: State<tbEspecialistas?> = _especialista
 
     fun setEmail(email: String) {
         _correoState.value = email
@@ -82,9 +97,9 @@ class LoginEspecialistaViewModel : ViewModel() {
             Log.d("Login","Inicia corutina")
             try {
                 Log.d("Login","Se realiza la peticion")
-                val loginRequestEspecialista = LoginRequestEspecialista(_correoState.value, _contrasenaState.value)
+                val loginRequest = LoginEspecialistaRequest(_correoState.value, _contrasenaState.value)
                 //val response = loginUseCase.login(loginRequest)
-                val response = loginRepositoryEspecialista.login(loginRequestEspecialista)
+                val response = loginRepository.login(loginRequest)
                 Log.d("Login","peticion:"+response.toString())
                 if (response.success && response.data != null) {
                     println("JSON recibido con éxito")
@@ -92,13 +107,14 @@ class LoginEspecialistaViewModel : ViewModel() {
                     println(response.msg)
                     println(response.data)
 
-                    val rptaEspecialista = response.data
+                    val rptaUsuario = response.data
+                    _idEspecialista.value = response.data.idEspecialista.toString()
                     _especialista.value = tbEspecialistas(
-                        idEspecialista = rptaEspecialista.idEspecialista ?: 0,
-                        nombreEspecialista = rptaEspecialista.nombreEspecialista,
-                        apellidoEspecialista = rptaEspecialista.apellidoEspecialista,
-                        correoEspecialista = rptaEspecialista.correoEspecialista,
-                        contrasenaEspecialista = rptaEspecialista.contraseñaEspecialista
+                        idEspecialista = rptaUsuario.idEspecialista ?: 0,
+                        nombreEspecialista = rptaUsuario.nombreEspecialista,
+                        apellidoEspecialista = rptaUsuario.apellidoEspecialista,
+                        correoEspecialista = rptaUsuario.correoEspecialista,
+                        contrasenaEspecialista = rptaUsuario.contraseñaEspecialista
                     )
                     _loginSuccess.value = true
 

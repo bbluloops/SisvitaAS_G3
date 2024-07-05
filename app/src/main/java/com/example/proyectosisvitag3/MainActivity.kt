@@ -6,10 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectosisvitag3.ui.theme.data.model.tbEstudiante
 import com.example.proyectosisvitag3.ui.theme.iu.*
 import com.example.proyectosisvitag3.ui.theme.iu.formulario.*
-
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.proyectosisvitag3.ui.view.EscogerTestScreen
@@ -34,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     EscogerTestScreen(navController = navController, viewModel = EscogerTestViewModel())
                 }
                 composable("loginScreen") { LoginScreen(navController, LoginViewModel()) }
-                composable("loginScreenEspecialista") { LoginScreenEspecialista(navController, LoginEspecialistaViewModel()) }
+                composable("loginScreenEspecialista") { LoginScreenEspecialista(navController, LoginViewModelEspecialista()) }
                 composable("studentMainScreen/{nombreEstudiante}/{apellidoEstudiante}") { backStackEntry ->
                     StudentMainScreen(navController,backStackEntry.arguments!!.getString("nombreEstudiante").toString(),backStackEntry.arguments!!.getString("apellidoEstudiante").toString()) }
                 composable("especialistaMainScreen/{idEspecialista}"){backStackEntry->

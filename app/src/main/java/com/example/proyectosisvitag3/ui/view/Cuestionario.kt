@@ -89,7 +89,7 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
         Button(
             onClick = {
                 Log.d("Cuestionario", respuestasSeleccionadas.toString())
-                cuestionarioViewModel.sendRespuesta(respuestasSeleccionadas,idTest)
+                cuestionarioViewModel.sendRespuesta(respuestasSeleccionadas, idTest)
                 showDialog = true
             },
             enabled = allQuestionsAnswered,
@@ -132,7 +132,6 @@ fun PreguntasCuestionario(cuestionarioViewModel: CuestionarioViewModel = viewMod
             }
         }
     }
-
 }
 
 @Composable
